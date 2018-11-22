@@ -1,26 +1,14 @@
-FROM openresty/openresty:bionic
+FROM openresty/openresty:centos
 
-ADD https://github.com/Yelp/dumb-init/releases/download/v1.0.2/dumb-init_1.0.2_amd64 /usr/bin/dumb-init
-RUN chmod +x /usr/bin/dumb-init
+RUN curl -fsSL https://get.docker.com/ | sh && \
+    systemctl enable docker && \
+    yum clean all
 
-RUN apt-get update -y && \
-    apt-get install -y curl && \
-    curl -s https://packages.gitlab.com/install/repositories/runner/gitlab-ci-multi-runner/script.deb.sh | bash && \
-    apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install -y gitlab-ci-multi-runner && \
-    apt-get clean && \
-    apt-get autoremove -y
-
-# Install docker
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" && \
-    apt-get update && \
-    apt-cache policy docker-ce && \
-    apt-get install -y docker-ce && \
-    systemctl status docker && \
-    apt-get clean && \
-    apt-get autoremove -y
+RUN curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.rpm.sh | bash && \
+    yum -y install gitlab-runner && \
+    yum clean all && \
+    wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && \
+    chmod +x /usr/bin/dumb-init
     
 VOLUME ["/etc/gitlab-runner", "/home/gitlab-runner"]
 ENTRYPOINT ["/usr/bin/dumb-init", "gitlab-ci-multi-runner"]
