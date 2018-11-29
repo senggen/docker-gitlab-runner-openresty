@@ -12,7 +12,7 @@ RUN yum -y install lua lua-devel unzip wget make gcc && \
     cd .. && \
     rm -rf luarocks-3.0.4 && \
     rm luarocks-3.0.4.tar.gz && \
-    yum -y remove make gcc unzip && \
+    yum -y remove make gcc && \
     yum clean all
 
 RUN curl -fsSL https://get.docker.com/ | sh && \
