@@ -28,6 +28,10 @@ RUN curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runne
 ADD run.sh /home
 RUN chmod +x /home/run.sh
 
+ENV NGX_ROOT /usr/local/openresty/nginx
+ENV PATH $PATH:$NGX_ROOT/sbin:/usr/local/luacheck/bin
+ADD chmod a+rw -R $NGX_ROOT
+
 WORKDIR /home/gitlab-runner
     
 CMD /home/run.sh
