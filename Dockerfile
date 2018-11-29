@@ -10,8 +10,8 @@ RUN yum -y install lua lua-devel unzip wget make gcc && \
     cd .. && \
     rm -rf luarocks-3.0.4 && \
     rm luarocks-3.0.4.tar.gz && \
-    luarocks install luacheck && \
-    luarocks install cluacov && \
+    /usr/local/bin/luarocks install luacheck && \
+    /usr/local/bin/luarocks install cluacov && \
     yum -y remove make gcc && \
     yum clean all
 
