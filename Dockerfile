@@ -24,13 +24,14 @@ RUN curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runne
     yum clean all && \
     wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && \
     chmod +x /usr/bin/dumb-init
-    
-ADD run.sh /home
-RUN chmod +x /home/run.sh
+
 
 ENV NGX_ROOT /usr/local/openresty/nginx
 ENV PATH $PATH:$NGX_ROOT/sbin:/usr/local/bin
-ADD chmod a+rw -R $NGX_ROOT
+
+ADD run.sh /home
+RUN chmod +x /home/run.sh && 
+    chmod a+rw -R $NGX_ROOT
 
 WORKDIR /home/gitlab-runner
     
