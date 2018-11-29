@@ -1,6 +1,6 @@
 FROM openresty/openresty:centos
 
-RUN yum -y install lua lua-devel unzip wget && \
+RUN yum -y install lua lua-devel unzip wget make gcc && \
     wget http://luarocks.org/releases/luarocks-3.0.4.tar.gz && \
     tar -xzvf luarocks-3.0.4.tar.gz && \
     cd luarocks-3.0.4/ && \
@@ -12,6 +12,7 @@ RUN yum -y install lua lua-devel unzip wget && \
     cd .. && \
     rm -rf luarocks-3.0.4 && \
     rm luarocks-3.0.4.tar.gz && \
+    yum -y remove make gcc unzip && \
     yum clean all
 
 RUN curl -fsSL https://get.docker.com/ | sh && \
