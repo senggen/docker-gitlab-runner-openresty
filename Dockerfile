@@ -19,15 +19,20 @@ LABEL resty_rpm_flavor="${RESTY_RPM_FLAVOR}"
 LABEL resty_rpm_version="${RESTY_RPM_VERSION}"
 LABEL resty_rpm_arch="${RESTY_RPM_ARCH}"
 
-RUN yum-config-manager --add-repo https://openresty.org/package/${RESTY_IMAGE_BASE}/openresty.repo \
-    && yum install -y \
+RUN yum install -y \
         gettext \
         make \
-        openresty${RESTY_RPM_FLAVOR}-${RESTY_RPM_VERSION}.${RESTY_RPM_ARCH} \
-        openresty-opm-${RESTY_RPM_VERSION} \
-        openresty-resty-${RESTY_RPM_VERSION} \
         unzip \
+        pcre-devel \
+        openssl-devel \
+        gcc \
+        curl
     && cd /tmp \
+    && curl -fSL https://openresty.org/download/openresty-1.15.8.1rc1.tar.gz -o openresty-1.15.8.1rc1.tar.gz
+    && tar xzf openresty-1.15.8.1rc1.tar.gz`\
+    && cd openresty-1.15.8.1rc1 \
+    && ./configure --with-luajit && make && make install \
+    && cd .. \
     && curl -fSL https://github.com/luarocks/luarocks/archive/${RESTY_LUAROCKS_VERSION}.tar.gz -o luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz \
     && tar xzf luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz \
     && cd luarocks-${RESTY_LUAROCKS_VERSION} \
@@ -66,19 +71,8 @@ COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
 
 # mine
-RUN yum -y install lua lua-devel unzip wget make gcc && \
-    wget http://luarocks.org/releases/luarocks-3.0.4.tar.gz && \
-    tar -xzvf luarocks-3.0.4.tar.gz && \
-    cd luarocks-3.0.4/ && \
-    ./configure && \
-    make && \
-    make install && \
-    cd .. && \
-    rm -rf luarocks-3.0.4 && \
-    rm luarocks-3.0.4.tar.gz && \
-    /usr/local/bin/luarocks install luacheck && \
-    /usr/local/bin/luarocks install cluacov && \
-    yum clean all
+RUN /usr/local/bin/luarocks install luacheck && \
+    /usr/local/bin/luarocks install cluacov
 
 RUN curl -fsSL https://get.docker.com/ | sh && \
     systemctl enable docker && \
