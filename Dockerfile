@@ -19,7 +19,10 @@ LABEL resty_rpm_flavor="${RESTY_RPM_FLAVOR}"
 LABEL resty_rpm_version="${RESTY_RPM_VERSION}"
 LABEL resty_rpm_arch="${RESTY_RPM_ARCH}"
 
-RUN yum install -y \
+RUN yum -y update && \
+    yum -y install yum-utils && \
+    yum -y groupinstall development && \
+    yum install -y \
         gettext \
         make \
         unzip \
