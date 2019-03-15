@@ -35,7 +35,8 @@ ENV PATH $PATH:$NGX_ROOT/sbin:/usr/local/bin
 
 ADD run.sh /home
 RUN chmod +x /home/run.sh && \
-    chmod a+rw -R $NGX_ROOT
+    chmod a+rw -R $NGX_ROOT && \
+    nginx -V
 
 WORKDIR /home/gitlab-runner
     
