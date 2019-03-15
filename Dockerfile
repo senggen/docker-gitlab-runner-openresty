@@ -29,7 +29,7 @@ RUN yum install -y \
         curl \
     && cd /tmp \
     && curl -fSL https://openresty.org/download/openresty-1.15.8.1rc1.tar.gz -o openresty-1.15.8.1rc1.tar.gz \
-    && tar xzf openresty-1.15.8.1rc1.tar.gz`\
+    && tar xzf openresty-1.15.8.1rc1.tar.gz \
     && cd openresty-1.15.8.1rc1 \
     && ./configure --with-luajit && make && make install \
     && cd .. \
