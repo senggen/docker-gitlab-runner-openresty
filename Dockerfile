@@ -27,6 +27,7 @@ RUN yum install -y \
         openssl-devel \
         gcc \
         curl \
+    && yum -y groupinstall development \
     && cd /tmp \
     && curl -fSL https://openresty.org/download/openresty-1.15.8.1rc1.tar.gz -o openresty-1.15.8.1rc1.tar.gz \
     && tar xzf openresty-1.15.8.1rc1.tar.gz \
