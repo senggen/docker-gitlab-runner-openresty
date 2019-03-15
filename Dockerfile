@@ -26,7 +26,7 @@ RUN yum install -y \
         pcre-devel \
         openssl-devel \
         gcc \
-        curl
+        curl \
     && cd /tmp \
     && curl -fSL https://openresty.org/download/openresty-1.15.8.1rc1.tar.gz -o openresty-1.15.8.1rc1.tar.gz
     && tar xzf openresty-1.15.8.1rc1.tar.gz`\
