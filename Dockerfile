@@ -49,7 +49,7 @@ ENV LUA_PATH="/usr/local/openresty/site/lualib/?.ljbc;/usr/local/openresty/site/
 ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;/usr/local/openresty/luajit/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/local/openresty/luajit/lib/lua/5.1/?.so"
 
 # Luacheck & Luacov
-RUN luarocks install luacheck && luarocks install cluacov
+RUN luarocks install luacheck && luarocks install luacov
 
 # Docker
 RUN curl -fsSL get.docker.com -o get-docker.sh && \
@@ -64,13 +64,6 @@ RUN curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runne
     yum clean all && \
     wget -qO /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64 && \
     chmod +x /usr/bin/dumb-init
-
-# Redis
-RUN cd /tmp &&\
-    curl http://download.redis.io/redis-stable.tar.gz | tar xz &&\
-    make -C redis-stable &&\
-    cp redis-stable/src/redis-cli /usr/local/bin &&\
-    rm -rf /tmp/redis-stable
 
 ENV NGX_ROOT /usr/local/openresty/nginx
 ENV PATH $PATH:$NGX_ROOT/sbin:/usr/local/bin
